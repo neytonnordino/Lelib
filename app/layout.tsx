@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
 import Header from "./sections/Header";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const poppins = Poppins({
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-}); 
+});
 
 export const metadata: Metadata = {
   title: "Lelib",
@@ -27,8 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
-        <Header/>
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
