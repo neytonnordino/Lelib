@@ -7,12 +7,11 @@ import React from "react";
 import { IoMdSearch } from "react-icons/io";
 import Button from "../components/Button";
 import Avatar from "../components/Avatar";
-import { Session } from "inspector/promises";
 import { useSession } from "next-auth/react";
 
 const Header = () => {
   const { data: session } = useSession();
-  console.log(Session.us)
+  // console.log(Session.us)
   return (
     <header className="px-6 py-2">
       <div className=" flex justify-between items-center">
