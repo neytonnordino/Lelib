@@ -7,6 +7,7 @@ import { IoMdSearch } from "react-icons/io";
 import Button from "../components/Button";
 import Avatar from "../components/Avatar";
 import { useSession } from "next-auth/react";
+import LogOut from "../components/signOut";
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -66,6 +67,7 @@ const Header = () => {
                   </div>
                 )}
               </Avatar>
+              <LogOut/>
             </div>
           ) : (
             // User is not logged in

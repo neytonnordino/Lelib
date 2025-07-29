@@ -1,14 +1,16 @@
 "use client";
 
-import { signIn, getSession } from "next-auth/react";
+import { signIn, getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function SignIn() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   useEffect(() => {
     getSession().then((session) => {
@@ -25,7 +27,7 @@ export default function SignIn() {
     setError(null);
     try {
       const result = await signIn("google", {
-        callbackUrl: "/dashboard",
+        callbackUrl: "/",
         redirect: false,
       });
       if (result?.error) {
@@ -43,19 +45,23 @@ export default function SignIn() {
   // Show loading while checking session to prevent hydration mismatch
   if (isCheckingSession) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
+      <div className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 bg-from-amber-200 to-white"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Welcome back
-          </h2>
+    <section className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white px-4">
+      <div className="max-w-sm md:max-w-md w-full space-y-8">
+        <div className="flex flex-col items-center text-center">
+          <Image
+            src="/images/mainIcon.png"
+            width={100}
+            height={0}
+            alt="Lelib Icon"
+          />
+          <h2 className=" text-3xl font-bold text-gray-900">Welcome</h2>
           <p className="mt-2 text-sm text-gray-600">
             Sign in to your account to continue
           </p>
@@ -70,7 +76,7 @@ export default function SignIn() {
             <button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-yellow-50/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? (
                 <div className="flex items-center">
@@ -123,6 +129,6 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
