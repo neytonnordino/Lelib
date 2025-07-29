@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
 import Header from "./sections/Header";
 import "./globals.css";
-import { Providers } from "./providers";
+import { Providers } from "./components/providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
