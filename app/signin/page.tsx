@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, getSession, useSession } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -10,7 +10,6 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
 
   useEffect(() => {
     getSession().then((session) => {
@@ -46,14 +45,14 @@ export default function SignIn() {
   if (isCheckingSession) {
     return (
       <div className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 bg-from-amber-200 to-white"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-amber-200 border-b-2"></div>
       </div>
     );
   }
 
   return (
     <section className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="max-w-sm md:max-w-md w-full space-y-8">
+      <div className="max-w-sm md:max-w-md w-full space-y-8 ">
         <div className="flex flex-col items-center text-center">
           <Image
             src="/images/mainIcon.png"
@@ -76,7 +75,7 @@ export default function SignIn() {
             <button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-yellow-50/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-yellow-50/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? (
                 <div className="flex items-center">
@@ -128,6 +127,10 @@ export default function SignIn() {
             </button>
           </div>
         </div>
+        <p className="text-center mx-auto block text-[12px]">
+          By signing up you agree to the{" "}
+          <span className="underline cursor-pointer">Terms of Service</span>
+        </p>
       </div>
     </section>
   );
