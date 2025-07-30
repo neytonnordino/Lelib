@@ -1,0 +1,81 @@
+import React from 'react'
+
+const Hero = () => {
+  return (
+    <section className='py-30'>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+      <h1>heloo</h1>
+    </section>
+  )
+}
+
+export default Hero

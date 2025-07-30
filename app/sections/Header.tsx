@@ -12,92 +12,24 @@ import { RxExit } from "react-icons/rx";
 import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-
-const navItems = [
-  {
-    label: "Categories",
-    href: "#categories",
-  },
-  {
-    label: "Discover",
-    href: "#discover",
-  },
-
-  {
-    label: "Read",
-    href: "#read",
-  },
-
-  {
-    label: "About us",
-    href: "/about-us",
-  },
-];
+import Logo from "../components/Logo";
+import SearchBar from "../components/SearchBar";
+import NavLinks from "../components/NavLinks";
 
 const Header = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [value, setvalue] = useState("");
   const [modal, setModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
 
   return (
-    <header className="px-6 py-2">
+    <header className="fixed top-0 left-0 w-full px-6 py-2 bg-white border-b border-neutral-200">
       <div className="flex justify-between items-center gap-2">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/images/mainIcon.png"
-            width={80}
-            height={80}
-            alt="Lelib Icon"
-          />
-          <h1 className="text-base md:text-2xl bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
-            Lelib
-          </h1>
-        </Link>
+        <Logo />
         <div className="hidden md:inline-flex">
-          <form className="flex items-center justify-between bg-neutral-200 rounded-3xl h-full  text-neutral-600 py-2 px-4 cursor-pointer transition-all duration-300 lg:w-80">
-            <input
-              type="text"
-              placeholder="Search"
-              value={value}
-              onChange={(e) => setvalue(e.target.value)}
-              className="outline-0 px-2 w-full"
-            />
-            <div className="flex justify-between items-center gap-1">
-              {value && (
-                <button onClick={() => setvalue("")} className="cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="15"
-                    height="20"
-                    viewBox="0 0 50 50"
-                    className="font-bold"
-                  >
-                    <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
-                  </svg>
-                </button>
-              )}
-              <IoMdSearch className="text-xl" />
-            </div>
-          </form>
+          <SearchBar value={value} onChange={setvalue} />
         </div>
-        <nav className="hidden lg:inline-flex">
-          <ul className="flex items-center gap-2">
-            {navItems.map((item) => (
-              <li
-                key={item.label}
-                className={`hover:text-amber-300 transition-colors ${
-                  pathname === item.href ? " border-b-2 border-amber-300" : ""
-                }`}
-              >
-                <Link href={item.href}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <NavLinks className="hidden lg:inline-flex" />
         <div className="flex gap-2 transition items-center">
           <Button
             variant={"tertiary"}
@@ -122,36 +54,7 @@ const Header = () => {
               }`}
               onClick={(e) => e.stopPropagation()}
             >
-              <form className="flex items-center justify-between bg-neutral-200 rounded-3xl h-10 w-70 text-neutral-600 py-2 px-4 cursor-pointer">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="outline-0 px-2"
-                  value={value}
-                  onChange={(e) => setvalue(e.target.value)}
-                />
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setvalue("")}
-                    className={`cursor-pointer transition ${
-                      value ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="15"
-                      height="20"
-                      viewBox="0 0 50 50"
-                      className="font-bold"
-                    >
-                      <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
-                    </svg>
-                  </button>
-                  <IoMdSearch className="text-xl" />
-                </div>
-              </form>
+              <SearchBar value={value} onChange={setvalue} />
             </div>
           </div>
 
@@ -253,31 +156,13 @@ const Header = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="fixed inset-0 bg-default z-40 px-6 py-2 lg:hidden overflow-y-auto bg-white text-black"
               >
-                <Link href="/" className="flex items-center">
-                  <Image
-                    src="/images/mainIcon.png"
-                    width={80}
-                    height={0}
-                    alt="Lelib Icon"
-                  />
-                </Link>
+                <Logo showText={false} />
                 <div className="flex flex-col items-end px-6 gap-6">
-                  <nav className="lg:hidden ">
-                    <ul className="flex flex-col items-end gap-6 ">
-                      {navItems.map((item) => (
-                        <li
-                          key={item.label}
-                          className={`hover:text-amber-300 transition-colors ${
-                            pathname === item.href
-                              ? " border-b-2 border-amber-300 "
-                              : ""
-                          }`}
-                        >
-                          <Link href={item.href}>{item.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
+                  <NavLinks
+                    isMobile={true}
+                    className="lg:hidden flex flex-col gap-4"
+                    onMobileItemClick={() => setMenuOpen(false)}
+                  />
                   <Button className="bg-gradient-to-r from-amber-200 to-amber-500 hover:bg-gradient-to-l  hover:scale-95 transition-all ease-in-out duration-200 lg:hidden px-8">
                     <Link
                       href="/signin"
