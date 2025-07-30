@@ -11,13 +11,35 @@ import LogOut from "../components/signOut";
 import { RxExit } from "react-icons/rx";
 import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+
+const navItems = [
+  {
+    label: "Categories",
+    href: "#categories",
+  },
+  {
+    label: "Discover",
+    href: "#discover",
+  },
+
+  {
+    label: "Read",
+    href: "#read",
+  },
+
+  {
+    label: "About us",
+    href: "/about-us",
+  },
+];
 
 const Header = () => {
   const { data: session, status } = useSession();
-  const isLoading = status === "loading";
   const [value, setvalue] = useState("");
   const [modal, setModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="px-6 py-2">
@@ -62,6 +84,20 @@ const Header = () => {
             </div>
           </form>
         </div>
+        <nav className="hidden lg:inline-flex">
+          <ul className="flex items-center gap-2">
+            {navItems.map((item) => (
+              <li
+                key={item.label}
+                className={`hover:text-amber-300 transition-colors ${
+                  pathname === item.href ? " border-b-2 border-amber-300" : ""
+                }`}
+              >
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div className="flex gap-2 transition items-center">
           <Button
             variant={"tertiary"}
@@ -120,10 +156,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {isLoading ? (
-              // Show loading state to prevent hydration mismatch
-              <div className="w-20 h-10 bg-gray-200 rounded animate-pulse"></div>
-            ) : session ? (
+            {session ? (
               // User is logged in
               <div className="flex items-center gap-4">
                 <span className="text-sm text-gray-600">
@@ -139,7 +172,7 @@ const Header = () => {
                       className="w-10 h-10"
                     />
                   ) : (
-                    <div className="w-10 h-10 bg-blue-500 flex items-center justify-center text-white font-semibold">
+                    <div className="w-10 h-10 bg-amber-500 flex items-center justify-center text-white font-semibold">
                       {session.user?.name?.[0] ||
                         session.user?.email?.[0] ||
                         "U"}
@@ -177,7 +210,7 @@ const Header = () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="feather feather-menu text-black hover:text-amber-300"
+              className={`feather feather-menu text-black hover:text-amber-300`}
             >
               <line
                 x1="3"
@@ -218,7 +251,7 @@ const Header = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="fixed inset-0 bg-default z-40 px-6 py-2 lg:hidden overflow-y-auto bg-gradient-to-b from-amber-200 to-amber-300"
+                className="fixed inset-0 bg-default z-40 px-6 py-2 lg:hidden overflow-y-auto bg-white text-black"
               >
                 <Link href="/" className="flex items-center">
                   <Image
@@ -228,31 +261,32 @@ const Header = () => {
                     alt="Lelib Icon"
                   />
                 </Link>
-                <h1>Hello Menu</h1>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium ab, impedit iusto, accusamus corporis alias non
-                  quaerat ea voluptates perferendis praesentium neque earum sint
-                  doloribus aliquam provident fuga expedita. Debitis?
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium ab, impedit iusto, accusamus corporis alias non
-                  quaerat ea voluptates perferendis praesentium neque earum sint
-                  doloribus aliquam provident fuga expedita. Debitis?
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium ab, impedit iusto, accusamus corporis alias non
-                  quaerat ea voluptates perferendis praesentium neque earum sint
-                  doloribus aliquam provident fuga expedita. Debitis?
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium ab, impedit iusto, accusamus corporis alias non
-                  quaerat ea voluptates perferendis praesentium neque earum sint
-                  doloribus aliquam provident fuga expedita. Debitis?
-                </p>
+                <div className="flex flex-col items-end px-6 gap-6">
+                  <nav className="lg:hidden ">
+                    <ul className="flex flex-col items-end gap-6 ">
+                      {navItems.map((item) => (
+                        <li
+                          key={item.label}
+                          className={`hover:text-amber-300 transition-colors ${
+                            pathname === item.href
+                              ? " border-b-2 border-amber-300 "
+                              : ""
+                          }`}
+                        >
+                          <Link href={item.href}>{item.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                  <Button className="bg-gradient-to-r from-amber-200 to-amber-500 hover:bg-gradient-to-l  hover:scale-95 transition-all ease-in-out duration-200 lg:hidden px-8">
+                    <Link
+                      href="/signin"
+                      className="text-[12px] md:text-base whitespace-nowrap"
+                    >
+                      Log in
+                    </Link>
+                  </Button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
