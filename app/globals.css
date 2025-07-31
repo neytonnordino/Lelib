@@ -17,6 +17,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-poppins);
   font-weight: 400;
+  scroll-behavior: smooth;
 }
 
 h1,

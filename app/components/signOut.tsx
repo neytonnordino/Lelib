@@ -2,8 +2,13 @@
 
 import React from "react";
 import { signOut } from "next-auth/react";
+import { twMerge } from "tailwind-merge";
 
-const LogOut = () => {
+interface LogOutProps {
+  className?: string;
+}
+
+const LogOut = ({ className }: LogOutProps) => {
   const handleSignOut = async () => {
     try {
       await signOut({ callbackUrl: "/" });
@@ -13,7 +18,13 @@ const LogOut = () => {
   };
 
   return (
-    <button onClick={handleSignOut} className="">
+    <button
+      onClick={handleSignOut}
+      className={twMerge(
+        "px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors",
+        className
+      )}
+    >
       Sign Out
     </button>
   );

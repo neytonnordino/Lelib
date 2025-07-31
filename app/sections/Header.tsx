@@ -1,29 +1,30 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import React, { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import Button from "../components/Button";
-import Avatar from "../components/Avatar";
-import { useSession } from "next-auth/react";
-import LogOut from "../components/signOut";
 import { RxExit } from "react-icons/rx";
 import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 import Logo from "../components/Logo";
 import SearchBar from "../components/SearchBar";
 import NavLinks from "../components/NavLinks";
+import UserSection from "../components/UserSection";
+import { useScrollHeader } from "../hooks/useScrollHeader";
 
 const Header = () => {
-  const { data: session } = useSession();
   const [value, setvalue] = useState("");
   const [modal, setModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isVisible } = useScrollHeader();
 
   return (
-    <header className="fixed top-0 left-0 w-full px-6 py-2 bg-white border-b border-neutral-200">
+    <motion.header
+      className="fixed top-0 left-0 w-full px-6 bg-white/95 backdrop-blur-md border-b border-neutral-200 z-50 shadow-sm"
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : -80 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+    >
       <div className="flex justify-between items-center gap-2">
         <Logo />
         <div className="hidden md:inline-flex">
@@ -31,6 +32,11 @@ const Header = () => {
         </div>
         <NavLinks className="hidden lg:inline-flex" />
         <div className="flex gap-2 transition items-center">
+          {/* Desktop User Section */}
+          <div className="hidden lg:block">
+            <UserSection />
+          </div>
+
           <Button
             variant={"tertiary"}
             className="bg-neutral-100 hover:bg-neutral-200 md:hidden border-0 transition hover:scale-90 group"
@@ -56,45 +62,6 @@ const Header = () => {
             >
               <SearchBar value={value} onChange={setvalue} />
             </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {session ? (
-              // User is logged in
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">
-                  Welcome, {session.user?.name || session.user?.email}
-                </span>
-                <Avatar>
-                  {session.user?.image ? (
-                    <Image
-                      src={session.user.image}
-                      alt="Profile"
-                      width={40}
-                      height={40}
-                      className="w-10 h-10"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-amber-500 flex items-center justify-center text-white font-semibold">
-                      {session.user?.name?.[0] ||
-                        session.user?.email?.[0] ||
-                        "U"}
-                    </div>
-                  )}
-                </Avatar>
-                <LogOut />
-              </div>
-            ) : (
-              // User is not logged in
-              <Button className="bg-gradient-to-r from-amber-200 to-amber-500 hover:bg-gradient-to-l  hover:scale-95 transition-all ease-in-out duration-200 hidden md:inline-flex">
-                <Link
-                  href="/signin"
-                  className="text-[12px] md:text-base whitespace-nowrap"
-                >
-                  Log in
-                </Link>
-              </Button>
-            )}
           </div>
 
           {/* { menu mobile } */}
@@ -163,21 +130,14 @@ const Header = () => {
                     className="lg:hidden flex flex-col gap-4"
                     onMobileItemClick={() => setMenuOpen(false)}
                   />
-                  <Button className="bg-gradient-to-r from-amber-200 to-amber-500 hover:bg-gradient-to-l  hover:scale-95 transition-all ease-in-out duration-200 lg:hidden px-8">
-                    <Link
-                      href="/signin"
-                      className="text-[12px] md:text-base whitespace-nowrap"
-                    >
-                      Log in
-                    </Link>
-                  </Button>
+                  <UserSection isMobile={true} />
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

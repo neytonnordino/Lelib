@@ -1,81 +1,8 @@
-import React from 'react'
+import React from "react";
+import HeroSection from "../components/HeroSection";
 
 const Hero = () => {
-  return (
-    <section className='py-30'>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-      <h1>heloo</h1>
-    </section>
-  )
-}
+  return <HeroSection />;
+};
 
-export default Hero
+export default Hero;
