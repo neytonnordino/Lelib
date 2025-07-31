@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 w-full px-6 py-2 bg-white/95 backdrop-blur-md border-b border-neutral-200 z-50 shadow-sm"
+        className="fixed top-0 left-0 w-full px-6 bg-white/95 backdrop-blur-md border-b border-neutral-200 z-50 shadow-sm"
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : -80 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -71,7 +71,7 @@ const Header = () => {
       {/* Mobile Menu Button - Always visible */}
       <button
         aria-label="Toggle Menu"
-        className="lg:hidden fixed top-7 right-6 z-[75] bg-white/95 backdrop-blur-sm rounded-lg p-2  "
+        className="lg:hidden fixed top-5 right-6 z-[75] bg-white/95 backdrop-blur-sm rounded-lg p-2  "
         onClick={() => setMenuOpen((prev) => !prev)}
       >
         <svg
