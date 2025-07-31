@@ -1,11 +1,11 @@
 export const navigationItems = [
   {
-    label: "Categories",
-    href: "#categories",
-  },
-  {
     label: "Discover",
     href: "#discover",
+  },
+  {
+    label: "Categories",
+    href: "#categories",
   },
   {
     label: "Read",

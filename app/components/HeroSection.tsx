@@ -47,6 +47,7 @@ const HeroSection = () => {
 
   return (
     <section
+    id="discover"
       className="relative h-screen w-full overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
