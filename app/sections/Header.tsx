@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import Button from "../components/Button";
 import { RxExit } from "react-icons/rx";
-import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "../components/Logo";
 import SearchBar from "../components/SearchBar";

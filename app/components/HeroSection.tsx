@@ -47,7 +47,7 @@ const HeroSection = () => {
 
   return (
     <section
-    id="discover"
+      id="discover"
       className="relative h-screen w-full overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -80,7 +80,7 @@ const HeroSection = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevImage}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-black/50 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+        className="absolute left-4 top-2/3 md:top-1/2 transform -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-black/50 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
         aria-label="Previous image"
       >
         <svg
@@ -100,7 +100,7 @@ const HeroSection = () => {
 
       <button
         onClick={nextImage}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-black/50 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+        className="absolute right-4 top-2/3 md:top-1/2 transform -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-black/50 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
         aria-label="Next image"
       >
         <svg
@@ -201,13 +201,13 @@ const HeroSection = () => {
       </div>
 
       {/* Image Indicators */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute bottom-2 md:bottom-4  left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex space-x-3">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`w-4 h-4 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
                 index === currentImageIndex
                   ? "bg-amber-400 scale-125 shadow-lg shadow-amber-400/50"
                   : "bg-white/50 hover:bg-white/75 hover:scale-110"
@@ -223,7 +223,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 right-8 z-20"
+        className="absolute bottom-8 right-8 z-20 hidden md:inline-flex"
       >
         <div className="flex flex-col items-center text-white">
           <span className="text-sm mb-2 font-medium">Scroll</span>
