@@ -25,6 +25,7 @@ const Header = () => {
         animate={{ y: isVisible ? 0 : -80 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
+        <span className="absolute right-5 -bottom-1 text-green-600 animate-pulse duration-500">In development</span>
         <div className="flex justify-between items-center gap-2">
           <Logo />
           <div className="hidden md:inline-flex">
