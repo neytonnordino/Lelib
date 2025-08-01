@@ -13,8 +13,16 @@
 }
 
 @keyframes blink {
-  0%, 49% { opacity: 1; transform: translateY(0); }
-  50%, 100% { opacity: 0.2; transform: translateY(1px)}
+  0%,
+  49% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(1px);
+  }
 }
 
 .animate-blink {
@@ -45,4 +53,23 @@ h5,
 h6 {
   font-weight: 700;
   letter-spacing: 0.05rem;
+}
+
+/* Hide scrollbar for webkit browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
