@@ -86,12 +86,12 @@ export default function CategoryCarousel() {
   return (
     <div className="px-6 relative">
       {categories.map((category) => (
-        <div key={category.categoryName} className="mb-12">
+        <div key={category.categoryName} className="">
           <CategoryTitle
-            className="transition"
+            className="transition my-12"
             categoryName={category.categoryName}
           />
-          <div className="relative group">
+          <div className="relative group my-6">
             {/* Left Navigation Button */}
             <button
               onClick={() => scroll(category.categoryName, "left")}
@@ -172,7 +172,7 @@ export default function CategoryCarousel() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 20 }}
                         transition={{ delay: index * 0.1 }}
-                        className="min-w-[220px] h-full bg-white rounded-xl shadow-md p-4 hover:-translate-y-2 duration-400 transition-all hover:shadow-lg cursor-pointer border border-gray-100"
+                        className="w-[220px] h-full bg-white rounded-xl shadow-md p-4 hover:-translate-y-2 duration-400 transition-all hover:shadow-lg cursor-pointer border border-gray-100 flex-shrink-0"
                       >
                         <div className="relative overflow-hidden rounded-lg">
                           <img
@@ -183,7 +183,7 @@ export default function CategoryCarousel() {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                         </div>
                         <div className="mt-3">
-                          <h3 className="font-semibold text-lg text-gray-800 line-clamp-2">
+                          <h3 className="font-semibold text-lg text-gray-800 line-clamp-2 text-wrap">
                             {book.name}
                           </h3>
                           <p className="text-sm font-medium text-orange-500 mt-1 line-clamp-2">
@@ -199,6 +199,7 @@ export default function CategoryCarousel() {
                   ))}
                 </AnimatePresence>
               </div>
+              <hr className="text-neutral-500/30 mt-12" />
             </div>
           </div>
         </div>

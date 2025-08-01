@@ -19,12 +19,6 @@ const Categories = () => {
         <div className="">
           <CategoryCarousel />
         </div>
-
-        <div className="text-center mt-16">
-          <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
-            View All Categories
-          </button>
-        </div>
       </div>
     </section>
   );

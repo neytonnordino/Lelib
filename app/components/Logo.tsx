@@ -19,7 +19,7 @@ const Logo = ({ showText = true, imgSize = 80, className = "" }: LogoProps) => {
         priority
       />
       {showText && (
-        <h1 className="text-base md:text-2xl bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent">
+        <h1 className="text-base md:text-2xl title">
           Lelib
         </h1>
       )}

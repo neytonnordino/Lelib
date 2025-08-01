@@ -73,3 +73,7 @@ h6 {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.title {
+  @apply bg-gradient-to-r from-amber-200 to-amber-500 bg-clip-text text-transparent
+}
