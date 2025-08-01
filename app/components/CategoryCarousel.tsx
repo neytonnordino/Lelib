@@ -50,7 +50,7 @@ export default function CategoryCarousel() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
-                      className="min-w-[220px] h-auto bg-white rounded-xl shadow-md p-4 hover:-translate-y-2 duration-400 transition hover:shadow-lg cursor-pointer"
+                      className="min-w-[220px] h-full bg-white rounded-xl shadow-md p-4 hover:-translate-y-2 duration-400 transition hover:shadow-lg cursor-pointer"
                     >
                       <img
                         src={book.image}
