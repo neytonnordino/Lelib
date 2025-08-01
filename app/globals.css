@@ -12,6 +12,20 @@
   --font-playfair: var(--font-playfair);
 }
 
+@keyframes blink {
+  0%, 49% { opacity: 1; transform: translateY(0); }
+  50%, 100% { opacity: 0.2; transform: translateY(1px)}
+}
+
+.animate-blink {
+  display: inline-block;
+  width: 2px; /* Cursor mais visível */
+  height: 0.8em; /* Altura igual ao texto */
+  background-color: black;
+  margin-left: 2px;
+  animation: blink 1s steps(2, start) infinite;
+}
+
 html {
   scroll-behavior: smooth;
 }
