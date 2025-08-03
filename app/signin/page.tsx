@@ -44,14 +44,14 @@ export default function SignIn() {
   // Show loading while checking session to prevent hydration mismatch
   if (isCheckingSession) {
     return (
-      <div className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white">
+      <div className="absolute top-0 left-0 w-full min-h-screen flex items-center justify-center bg-white">
         <div className="animate-spin rounded-full h-16 w-16 border-amber-200 border-b-2"></div>
       </div>
     );
   }
 
   return (
-    <section className="absolute top-0 right-0 w-full min-h-screen flex items-center justify-center bg-white px-4">
+    <section className="absolute top-0 left-0 w-full min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-sm md:max-w-md w-full space-y-8 ">
         <div className="flex flex-col items-center text-center">
           <Image

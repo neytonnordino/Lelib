@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import FavoriteButton from "../components/FavoriteButton";
-
+import FavoriteButton from "@/app/components/FavoriteButton";
 interface Book {
   id: string;
   volumeInfo: {
