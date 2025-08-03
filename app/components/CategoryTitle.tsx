@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 
 interface CategoryTitleProps {
   categoryName: string;
-  className: string
 }
 
-const CategoryTitle: React.FC<CategoryTitleProps> = ({ categoryName, className }) => {
+const CategoryTitle: React.FC<CategoryTitleProps> = ({ categoryName }) => {
   const [text, setText] = useState<string>("");
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const typingSpeed = isDeleting ? 50 : 100; // Faster when deleting

@@ -4,6 +4,7 @@ import { IoMdSearch } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
 import { useBookSearch } from "../hooks/useBookSearch";
 import Link from "next/link";
+import Image from "next/image";
 
 interface SearchBarProps {
   value: string;
@@ -135,10 +136,13 @@ const SearchBar = ({
                 >
                   <div className="flex items-center gap-3">
                     {book.volumeInfo.imageLinks?.thumbnail && (
-                      <img
+                      <Image
                         src={book.volumeInfo.imageLinks.thumbnail}
                         alt={book.volumeInfo.title}
+                        width={48}
+                        height={64}
                         className="w-12 h-16 object-cover rounded"
+                        unoptimized
                       />
                     )}
                     <div className="flex-1 min-w-0">

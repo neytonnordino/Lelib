@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Book {
   id: string;
@@ -22,6 +22,7 @@ interface SearchResult {
   items: Book[];
   totalItems: number;
   kind: string;
+  error?: string;
 }
 
 interface UseBookSearchReturn {

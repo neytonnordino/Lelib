@@ -1,9 +1,27 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { categories } from "../config/CategoryData";
 import CategoryTitle from "./CategoryTitle";
 import Link from "next/link";
-import { useBookSearch } from "../hooks/useBookSearch";
+import Image from "next/image";
+
+interface Book {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    description?: string;
+    imageLinks?: {
+      thumbnail?: string;
+      smallThumbnail?: string;
+    };
+    publishedDate?: string;
+    pageCount?: number;
+    categories?: string[];
+    averageRating?: number;
+    ratingsCount?: number;
+  };
+}
 
 export default function CategoryCarousel() {
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -14,9 +32,8 @@ export default function CategoryCarousel() {
     [key: string]: boolean;
   }>({});
   const [categoryBooks, setCategoryBooks] = useState<{
-    [key: string]: any[];
+    [key: string]: Book[];
   }>({});
-  const { searchBooks } = useBookSearch();
 
   const checkScrollPosition = (categoryName: string) => {
     const scrollContainer = scrollRefs.current[categoryName];
@@ -77,20 +94,18 @@ export default function CategoryCarousel() {
     }
   };
 
-  // Initialize scroll positions and load category books after component mounts
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      categories.forEach((category) => {
-        checkScrollPosition(category.categoryName);
-        // Load books for each category
-        loadCategoryBooks(category.categoryName);
-      });
-    }, 100);
+  const getCategorySearchQuery = (categoryName: string): string => {
+    const categoryQueries: { [key: string]: string } = {
+      Fiction: "fiction bestsellers",
+      "Self-Help": "self help personal development",
+      Romance: "romance novels",
+      "Personal Development": "personal development business",
+    };
 
-    return () => clearTimeout(timer);
-  }, []);
+    return categoryQueries[categoryName] || categoryName.toLowerCase();
+  };
 
-  const loadCategoryBooks = async (categoryName: string) => {
+  const loadCategoryBooks = useCallback(async (categoryName: string) => {
     try {
       // Create a search query based on category
       const searchQuery = getCategorySearchQuery(categoryName);
@@ -108,27 +123,26 @@ export default function CategoryCarousel() {
     } catch (error) {
       console.error(`Error loading books for ${categoryName}:`, error);
     }
-  };
+  }, []);
 
-  const getCategorySearchQuery = (categoryName: string): string => {
-    const categoryQueries: { [key: string]: string } = {
-      Fiction: "fiction bestsellers",
-      "Self-Help": "self help personal development",
-      Romance: "romance novels",
-      "Personal Development": "personal development business",
-    };
+  // Initialize scroll positions and load category books after component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      categories.forEach((category) => {
+        checkScrollPosition(category.categoryName);
+        // Load books for each category
+        loadCategoryBooks(category.categoryName);
+      });
+    }, 100);
 
-    return categoryQueries[categoryName] || categoryName.toLowerCase();
-  };
+    return () => clearTimeout(timer);
+  }, [loadCategoryBooks]);
 
   return (
     <div className="px-6 relative">
       {categories.map((category) => (
         <div key={category.categoryName} className="">
-          <CategoryTitle
-            className="transition my-12"
-            categoryName={category.categoryName}
-          />
+          <CategoryTitle categoryName={category.categoryName} />
           <div className="relative group my-6">
             {/* Left Navigation Button */}
             <button
@@ -211,13 +225,16 @@ export default function CategoryCarousel() {
                             >
                               <div className="relative overflow-hidden rounded-lg">
                                 {book.volumeInfo.imageLinks?.thumbnail ? (
-                                  <img
+                                  <Image
                                     src={book.volumeInfo.imageLinks.thumbnail.replace(
                                       "http://",
                                       "https://"
                                     )}
                                     alt={book.volumeInfo.title}
+                                    width={220}
+                                    height={160}
                                     className="w-full h-40 object-cover transition-transform duration-300 hover:scale-105"
+                                    unoptimized
                                   />
                                 ) : (
                                   <div className="w-full h-40 bg-gray-200 flex items-center justify-center">

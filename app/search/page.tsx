@@ -1,12 +1,13 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useBookSearch } from "../hooks/useBookSearch";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const { books, loading, error, totalItems, searchBooks } = useBookSearch();
@@ -19,7 +20,7 @@ export default function SearchPage() {
       setCurrentPage(0);
       setHasMore(true);
     }
-  }, [query]);
+  }, [query, searchBooks]);
 
   const loadMore = async () => {
     if (!hasMore || loading) return;
@@ -84,10 +85,13 @@ export default function SearchPage() {
               <Link href={`/book/${book.id}`}>
                 <div className="aspect-[3/4] relative overflow-hidden">
                   {book.volumeInfo.imageLinks?.thumbnail ? (
-                    <img
+                    <Image
                       src={book.volumeInfo.imageLinks.thumbnail}
                       alt={book.volumeInfo.title}
+                      width={200}
+                      height={266}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      unoptimized
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -154,5 +158,22 @@ export default function SearchPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading search...</p>
+          </div>
+        </div>
+      }
+    >
+      <SearchPageContent />
+    </Suspense>
   );
 }

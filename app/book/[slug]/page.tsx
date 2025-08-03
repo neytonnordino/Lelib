@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Book {
   id: string;
@@ -133,13 +134,16 @@ const Slug = (props: Props) => {
             <div className="sticky top-8">
               <div className="aspect-[3/4] relative overflow-hidden rounded-lg shadow-lg">
                 {book.volumeInfo.imageLinks?.thumbnail ? (
-                  <img
+                  <Image
                     src={book.volumeInfo.imageLinks.thumbnail.replace(
                       "http://",
                       "https://"
                     )}
                     alt={book.volumeInfo.title}
+                    width={300}
+                    height={400}
                     className="w-full h-full object-cover"
+                    unoptimized
                   />
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">
