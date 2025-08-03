@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
-import Header from "./sections/Header";
 import "./globals.css";
 import { Providers } from "./components/providers";
+import RootLayoutContent from "./components/RootLayoutContent";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -29,8 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.variable} ${playfair.variable} antialiased`}>
         <Providers>
-          <Header />
-          {children}
+          <RootLayoutContent>{children}</RootLayoutContent>
         </Providers>
       </body>
     </html>
