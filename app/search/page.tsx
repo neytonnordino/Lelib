@@ -64,7 +64,7 @@ export default function SearchPage() {
     <div className="container mx-auto px-6 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Search Results for "{query}"
+          Search Results for &quot;{query}&quot;
         </h1>
         <p className="text-gray-600">
           {totalItems > 0 ? `${totalItems} books found` : "No books found"}

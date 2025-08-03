@@ -87,7 +87,7 @@ export default function AboutUs() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20"></div>
         <div className="relative container mx-auto px-6 py-20">
           <motion.div
@@ -104,8 +104,8 @@ export default function AboutUs() {
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
               Your gateway to discovering amazing books. We believe every reader
-              deserves to find their perfect story, and we're here to make that
-              journey seamless and enjoyable.
+              deserves to find their perfect story, and we&apos;re here to make
+              that journey seamless and enjoyable.
             </p>
             <div className="flex justify-center">
               <Link
@@ -133,9 +133,9 @@ export default function AboutUs() {
               Our Mission
             </h2>
             <p className="text-xl text-gray-600 leading-relaxed mb-12">
-              We're passionate about connecting readers with their next favorite
-              book. By leveraging the power of Google Books API, we provide
-              access to a vast library of titles, making book discovery
+              We&apos;re passionate about connecting readers with their next
+              favorite book. By leveraging the power of Google Books API, we
+              provide access to a vast library of titles, making book discovery
               effortless and enjoyable for everyone.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -173,8 +173,8 @@ export default function AboutUs() {
               Why Choose Lelib?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              We've built Lelib with readers in mind, offering features that
-              make book discovery simple, fast, and enjoyable.
+              We&apos;ve built Lelib with readers in mind, offering features
+              that make book discovery simple, fast, and enjoyable.
             </p>
           </motion.div>
 
@@ -276,8 +276,8 @@ export default function AboutUs() {
 
             <div className="mt-12 p-6 bg-white rounded-xl shadow-lg">
               <p className="text-gray-600 mb-4">
-                <strong>Note:</strong> Replace the "#" links above with your
-                actual social media URLs:
+                <strong>Note:</strong> Replace the &quot;#&quot; links above
+                with your actual social media URLs:
               </p>
               <div className="text-sm text-gray-500 space-y-1">
                 <p>• GitHub: Your GitHub profile or repository</p>
