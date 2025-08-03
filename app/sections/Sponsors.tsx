@@ -24,7 +24,7 @@ const Sponsors = () => {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <span
                     key={i + dupIndex * 10}
-                    className="text-xl md:text-3xl hover:text-amber-500 transition-colors text-neutral-900/50 font-bold uppercase"
+                    className="text-xl md:text-3xl hover:text-amber-500 transition-colors text-neutral-900/50 font-bold uppercase cursor-default"
                   >
                     Sponsors
                   </span>

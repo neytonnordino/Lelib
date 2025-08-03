@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 export const useScrollHeader = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const heroHeight = window.innerHeight; // Hero section height
@@ -26,5 +29,8 @@ export const useScrollHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  return { isVisible };
+  // Only apply scroll-based visibility after component is mounted
+  const shouldShow = isMounted ? isVisible : true;
+
+  return { isVisible: shouldShow };
 };

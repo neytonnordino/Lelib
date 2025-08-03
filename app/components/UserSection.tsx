@@ -15,6 +15,7 @@ interface UserSectionProps {
 const UserSection = ({ isMobile = false, className }: UserSectionProps) => {
   const { data: session, status } = useSession();
 
+  // Show loading state during initial load to prevent hydration mismatch
   if (status === "loading") {
     return (
       <div
