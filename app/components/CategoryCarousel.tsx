@@ -4,6 +4,7 @@ import { categories } from "../config/CategoryData";
 import CategoryTitle from "./CategoryTitle";
 import Link from "next/link";
 import Image from "next/image";
+import FavoriteButton from "./FavoriteButton";
 
 interface Book {
   id: string;
@@ -244,6 +245,11 @@ export default function CategoryCarousel() {
                                   </div>
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute top-2 right-2 z-10">
+                                  <div onClick={(e) => e.preventDefault()}>
+                                    <FavoriteButton bookId={book.id} size="sm" />
+                                  </div>
+                                </div>
                               </div>
                               <div className="mt-3">
                                 <h3 className="font-semibold text-lg text-gray-800 line-clamp-2 text-wrap">

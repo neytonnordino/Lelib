@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useBookSearch } from "../hooks/useBookSearch";
 import Link from "next/link";
 import Image from "next/image";
+import FavoriteButton from "./FavoriteButton";
 
 interface SearchBarProps {
   value: string;
@@ -128,13 +129,12 @@ const SearchBar = ({
           {books.length > 0 && (
             <div className="py-2">
               {books.slice(0, 5).map((book) => (
-                <Link
-                  key={book.id}
-                  href={`/book/${book.id}`}
-                  className="block px-4 py-2 hover:bg-gray-100 transition-colors"
-                  onClick={() => setShowResults(false)}
-                >
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors">
+                  <Link
+                    href={`/book/${book.id}`}
+                    className="flex items-center gap-3 flex-1"
+                    onClick={() => setShowResults(false)}
+                  >
                     {book.volumeInfo.imageLinks?.thumbnail && (
                       <Image
                         src={book.volumeInfo.imageLinks.thumbnail}
@@ -155,8 +155,11 @@ const SearchBar = ({
                         </p>
                       )}
                     </div>
+                  </Link>
+                  <div onClick={(e) => e.preventDefault()}>
+                    <FavoriteButton bookId={book.id} size="sm" />
                   </div>
-                </Link>
+                </div>
               ))}
               {books.length > 5 && (
                 <div className="px-4 py-2 text-center text-sm text-blue-600 hover:bg-gray-100">

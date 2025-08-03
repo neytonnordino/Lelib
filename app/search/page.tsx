@@ -6,6 +6,7 @@ import { useBookSearch } from "../hooks/useBookSearch";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import FavoriteButton from "../components/FavoriteButton";
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
@@ -98,6 +99,11 @@ function SearchPageContent() {
                       <span className="text-gray-500 text-sm">No image</span>
                     </div>
                   )}
+                  <div className="absolute top-2 right-2 z-10">
+                    <div onClick={(e) => e.preventDefault()}>
+                      <FavoriteButton bookId={book.id} size="sm" />
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">

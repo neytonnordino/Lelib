@@ -15,6 +15,10 @@ export const navigationItems = [
     label: "About us",
     href: "/about-us",
   },
+  {
+    label: "Profile",
+    href: "/profile",
+  },
 ] as const;
 
 export type NavigationItem = (typeof navigationItems)[number];

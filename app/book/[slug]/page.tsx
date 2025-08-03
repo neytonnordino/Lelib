@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import FavoriteButton from "../components/FavoriteButton";
 
 interface Book {
   id: string;
@@ -158,9 +159,12 @@ const Slug = (props: Props) => {
 
           {/* Book Details */}
           <div className="lg:col-span-2">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              {book.volumeInfo.title}
-            </h1>
+            <div className="flex items-start justify-between mb-4">
+              <h1 className="text-4xl font-bold text-gray-900">
+                {book.volumeInfo.title}
+              </h1>
+              <FavoriteButton bookId={book.id} size="lg" className="ml-4" />
+            </div>
 
             {book.volumeInfo.authors && (
               <p className="text-xl text-gray-600 mb-6">
