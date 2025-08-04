@@ -3,7 +3,6 @@ import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./components/providers";
 import RootLayoutContent from "./components/RootLayoutContent";
-
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "700", "800"], // Pode ajustar os pesos conforme o que for usar

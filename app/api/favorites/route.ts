@@ -43,7 +43,7 @@ const saveFavorites = (favorites: Record<string, string[]>) => {
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -54,27 +54,33 @@ export async function GET() {
     return NextResponse.json({ favorites: userFavorites });
   } catch (error) {
     console.error("Error fetching favorites:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { bookId, action } = await request.json();
-    
+
     if (!bookId || !action) {
-      return NextResponse.json({ error: "Missing bookId or action" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing bookId or action" },
+        { status: 400 }
+      );
     }
 
     const favorites = loadFavorites();
     const userEmail = session.user.email;
-    
+
     if (!favorites[userEmail]) {
       favorites[userEmail] = [];
     }
@@ -84,20 +90,28 @@ export async function POST(request: NextRequest) {
         favorites[userEmail].push(bookId);
       }
     } else if (action === "remove") {
-      favorites[userEmail] = favorites[userEmail].filter(id => id !== bookId);
+      favorites[userEmail] = favorites[userEmail].filter(
+        (id: string) => id !== bookId
+      );
     } else {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     }
 
     saveFavorites(favorites);
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       favorites: favorites[userEmail],
-      message: action === "add" ? "Book added to favorites" : "Book removed from favorites"
+      message:
+        action === "add"
+          ? "Book added to favorites"
+          : "Book removed from favorites",
     });
   } catch (error) {
     console.error("Error updating favorites:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-} 
+}

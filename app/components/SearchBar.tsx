@@ -16,7 +16,6 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({
-  value,
   onChange,
   placeholder = "Search books...",
   isMobile = false,

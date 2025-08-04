@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   secret: process.env.AUTH_SECRET,
   providers: [
     GoogleProvider({
@@ -13,13 +13,13 @@ export default NextAuth({
     signIn: "/signin",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: any }) {
       if (token?.email && session.user) {
         session.user.email = token.email;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user: any }) {
       if (user?.email) {
         token.email = user.email;
       }
@@ -27,7 +27,9 @@ export default NextAuth({
     },
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   debug: process.env.NODE_ENV === "development",
-});
+};
+
+export default NextAuth(authOptions);
