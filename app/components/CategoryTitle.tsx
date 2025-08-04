@@ -34,7 +34,7 @@ const CategoryTitle: React.FC<CategoryTitleProps> = ({ categoryName }) => {
     timeout = setTimeout(type, typingSpeed);
 
     return () => clearTimeout(timeout);
-  }, [text, isDeleting, categoryName]);
+  }, [text, isDeleting, categoryName, typingSpeed]);
 
   return (
     <h4 className="text-2xl mt-6 transition">

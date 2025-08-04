@@ -34,7 +34,7 @@ export default function SignIn() {
       } else if (result?.ok) {
         router.push("/");
       }
-    } catch (error) {
+    } catch {
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);

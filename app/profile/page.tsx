@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { useFavorites } from "../hooks/useFavorites";
-import { useBookSearch } from "../hooks/useBookSearch";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";

@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
       let errorData;
       try {
         errorData = await response.json();
-      } catch (e) {
+      } catch {
         errorData = { message: "Failed to parse error response" };
       }
       console.error("Google Books API error:", errorData);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 
 interface UseFavoritesReturn {
@@ -12,31 +12,33 @@ interface UseFavoritesReturn {
 }
 
 export function useFavorites(): UseFavoritesReturn {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchFavorites = async () => {
+  const fetchFavorites = useCallback(async () => {
     if (status !== "authenticated") return;
-    
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch("/api/favorites");
       if (!response.ok) {
         throw new Error("Failed to fetch favorites");
       }
-      
+
       const data = await response.json();
       setFavorites(data.favorites || []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch favorites");
+      setError(
+        err instanceof Error ? err.message : "Failed to fetch favorites"
+      );
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [status]);
 
   const updateFavorite = async (bookId: string, action: "add" | "remove") => {
     if (status !== "authenticated") {
@@ -63,7 +65,9 @@ export function useFavorites(): UseFavoritesReturn {
       const data = await response.json();
       setFavorites(data.favorites || []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update favorites");
+      setError(
+        err instanceof Error ? err.message : "Failed to update favorites"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +95,7 @@ export function useFavorites(): UseFavoritesReturn {
     } else if (status === "unauthenticated") {
       setFavorites([]);
     }
-  }, [status]);
+  }, [status,fetchFavorites]);
 
   return {
     favorites,
@@ -102,4 +106,4 @@ export function useFavorites(): UseFavoritesReturn {
     isFavorite,
     refreshFavorites,
   };
-} 
+}

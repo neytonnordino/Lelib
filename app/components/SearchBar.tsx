@@ -70,7 +70,7 @@ const SearchBar = ({
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, searchBooks, clearResults]);
 
   return (
     <div ref={searchRef} className="relative">
