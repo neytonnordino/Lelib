@@ -75,7 +75,7 @@ export default function AboutUs() {
       icon: <FaInstagram className="w-6 h-6" />,
       url: "#", // Replace with your Instagram URL
       color: "hover:bg-pink-600",
-    },
+    },  
     {
       name: "YouTube",
       icon: <FaYoutube className="w-6 h-6" />,
@@ -221,7 +221,7 @@ export default function AboutUs() {
                 <FaRocket className="w-16 h-16 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                [Your Name Here]
+                Neyton Nordino Nhatave
               </h3>
               <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
                 A passionate developer who loves books and technology. I created

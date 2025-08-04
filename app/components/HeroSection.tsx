@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const heroImages = [
   "/images/hero-images/Hero1.jpg",
@@ -180,7 +181,7 @@ const HeroSection = () => {
             </button>
             <button className="group border-2 border-white/80 text-white px-10 py-4 rounded-xl text-lg font-semibold transition-all duration-300 hover:bg-white hover:text-black transform hover:scale-105 backdrop-blur-sm">
               <span className="flex items-center gap-2">
-                Browse Categories
+                <Link href="#categories">Browse Categories</Link>
                 <svg
                   className="w-5 h-5 group-hover:rotate-90 transition-transform"
                   fill="none"

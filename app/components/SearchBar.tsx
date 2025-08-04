@@ -128,8 +128,11 @@ const SearchBar = ({
 
           {books.length > 0 && (
             <div className="py-2">
-              {books.slice(0, 5).map((book) => (
-                <div className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors">
+              {books.slice(0, 5).map((book, index) => (
+                <div
+                  key={index}
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 transition-colors"
+                >
                   <Link
                     href={`/book/${book.id}`}
                     className="flex items-center gap-3 flex-1"
