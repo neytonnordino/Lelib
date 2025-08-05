@@ -107,7 +107,7 @@ const Footer = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Logo showText={true} />
+            <Logo showText={false} />
           </motion.div>
 
           {/* Navigation Links */}
@@ -192,7 +192,6 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <p>Discover your next favorite book with our intelligent search</p>
-            <p className="mt-1">Powered by Google Books API</p>
           </motion.div>
         </motion.div>
       </motion.div>
