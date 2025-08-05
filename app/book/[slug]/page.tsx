@@ -6,6 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
 import ReactMarkdown from "react-markdown";
+import ReadingProgress from "@/app/components/ReadingProgress";
+import BookReviews from "@/app/components/BookReviews";
+import ReadingLists from "@/app/components/ReadingLists";
+import RecentlyViewed from "@/app/components/RecentlyViewed";
 interface Book {
   id: string;
   volumeInfo: {
@@ -61,6 +65,17 @@ const Slug = (props: Props) => {
         }
         const data = await response.json();
         setBook(data);
+        
+        // Track recently viewed book
+        try {
+          await fetch("/api/recently-viewed", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ bookId: slug }),
+          });
+        } catch (error) {
+          console.error("Error tracking recently viewed:", error);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load book");
       } finally {
@@ -294,6 +309,24 @@ const Slug = (props: Props) => {
                 </a>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* New Features Section */}
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column */}
+          <div className="space-y-8">
+            <ReadingProgress 
+              bookId={book.id} 
+              totalPages={book.volumeInfo.pageCount}
+            />
+            <BookReviews bookId={book.id} />
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-8">
+            <ReadingLists bookId={book.id} />
+            <RecentlyViewed limit={3} />
           </div>
         </div>
       </motion.div>
