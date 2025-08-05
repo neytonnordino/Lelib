@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import FavoriteButton from "../components/FavoriteButton";
+import ReactMarkdown from "react-markdown";
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
@@ -115,9 +116,11 @@ function SearchPageContent() {
                     </p>
                   )}
                   {book.volumeInfo.description && (
-                    <p className="text-sm text-gray-500 line-clamp-3">
-                      {book.volumeInfo.description}
-                    </p>
+                    <div className="text-sm text-gray-500 line-clamp-3 prose prose-sm max-w-none">
+                      <ReactMarkdown>
+                        {book.volumeInfo.description}
+                      </ReactMarkdown>
+                    </div>
                   )}
                   <div className="flex items-center justify-between mt-3">
                     {book.volumeInfo.averageRating && (

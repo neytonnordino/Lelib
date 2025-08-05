@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
+import ReactMarkdown from "react-markdown";
 interface Book {
   id: string;
   volumeInfo: {
@@ -262,9 +263,11 @@ const Slug = (props: Props) => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   Description
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {book.volumeInfo.description}
-                </p>
+                <div className="text-gray-700 leading-relaxed prose prose-sm max-w-none">
+                  <ReactMarkdown>
+                    {book.volumeInfo.description}
+                  </ReactMarkdown>
+                </div>
               </div>
             )}
 

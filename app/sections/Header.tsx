@@ -25,26 +25,34 @@ const Header = () => {
         animate={{ y: isVisible ? 0 : -80 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
-        <div className="flex justify-between items-center gap-2">
-          <Logo />
-          <div className="hidden md:inline-flex">
-            <SearchBar value={value} onChange={setvalue} />
-          </div>
-          <NavLinks className="hidden lg:inline-flex" />
-          <div className="flex gap-2 transition items-center">
-            {/* Desktop User Section */}
-            <div className="hidden lg:block">
-              <UserSection />
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="flex justify-between items-center gap-2"
+          >
+            <Logo />
+            <div className="hidden md:inline-flex">
+              <SearchBar value={value} onChange={setvalue} />
             </div>
+            <NavLinks className="hidden lg:inline-flex" />
+            <div className="flex gap-2 transition items-center">
+              {/* Desktop User Section */}
+              <div className="hidden lg:block">
+                <UserSection />
+              </div>
 
-            <Button
-              variant={"tertiary"}
-              className="bg-neutral-100 hover:bg-neutral-200 md:hidden border-0 transition hover:scale-90 group mr-12"
-              onClick={() => setModal(true)}
-            >
-              <IoMdSearch className="text-2xl group-hover:text-amber-400 transition" />
-            </Button>
-          </div>
+              <Button
+                variant={"tertiary"}
+                className="bg-neutral-100 hover:bg-neutral-200 md:hidden border-0 transition hover:scale-90 group mr-12"
+                onClick={() => setModal(true)}
+              >
+                <IoMdSearch className="text-2xl group-hover:text-amber-400 transition" />
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </motion.header>
 

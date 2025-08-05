@@ -24,6 +24,70 @@ interface Book {
   };
 }
 
+interface CachedData {
+  data: Book[];
+  timestamp: number;
+}
+
+// Fallback data for when API is rate limited
+const FALLBACK_BOOKS: Book[] = [
+  {
+    id: "fallback1",
+    volumeInfo: {
+      title: "Sample Book 1",
+      authors: ["Sample Author"],
+      imageLinks: {
+        thumbnail: "https://via.placeholder.com/128x192?text=Book+1",
+      },
+      averageRating: 4.5,
+    },
+  },
+  {
+    id: "fallback2",
+    volumeInfo: {
+      title: "Sample Book 2",
+      authors: ["Sample Author"],
+      imageLinks: {
+        thumbnail: "https://via.placeholder.com/128x192?text=Book+2",
+      },
+      averageRating: 4.2,
+    },
+  },
+  {
+    id: "fallback3",
+    volumeInfo: {
+      title: "Sample Book 3",
+      authors: ["Sample Author"],
+      imageLinks: {
+        thumbnail: "https://via.placeholder.com/128x192?text=Book+3",
+      },
+      averageRating: 4.0,
+    },
+  },
+  {
+    id: "fallback4",
+    volumeInfo: {
+      title: "Sample Book 4",
+      authors: ["Sample Author"],
+      imageLinks: {
+        thumbnail: "https://via.placeholder.com/128x192?text=Book+4",
+      },
+      averageRating: 4.3,
+    },
+  },
+  {
+    id: "fallback5",
+    volumeInfo: {
+      title: "Sample Book 5",
+      authors: ["Sample Author"],
+      imageLinks: {
+        thumbnail: "https://via.placeholder.com/128x192?text=Book+5",
+      },
+      averageRating: 4.1,
+    },
+  },
+];
+
 export default function CategoryCarousel() {
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [canScrollLeft, setCanScrollLeft] = useState<{
@@ -35,6 +99,63 @@ export default function CategoryCarousel() {
   const [categoryBooks, setCategoryBooks] = useState<{
     [key: string]: Book[];
   }>({});
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [errorStates, setErrorStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // Cache duration: 2 hours (increased from 1 hour)
+  const CACHE_DURATION = 2 * 60 * 60 * 1000;
+
+  // Development mode - use fallback data only to prevent API calls
+  const DEV_MODE = process.env.NODE_ENV === "development";
+
+  const getCachedData = useCallback(
+    (categoryName: string): Book[] | null => {
+      try {
+        const cached = localStorage.getItem(`category_${categoryName}`);
+        if (cached) {
+          const parsed: CachedData = JSON.parse(cached);
+          if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+            return parsed.data;
+          }
+        }
+      } catch (error) {
+        console.warn("Failed to read from cache:", error);
+      }
+      return null;
+    },
+    [CACHE_DURATION]
+  );
+
+  const setCachedData = useCallback((categoryName: string, data: Book[]) => {
+    try {
+      const cacheData: CachedData = {
+        data,
+        timestamp: Date.now(),
+      };
+      localStorage.setItem(
+        `category_${categoryName}`,
+        JSON.stringify(cacheData)
+      );
+    } catch (error) {
+      console.warn("Failed to write to cache:", error);
+    }
+  }, []);
+
+  // Cache clearing function (unused but available for debugging)
+  // const clearCache = useCallback(() => {
+  //   try {
+  //     categories.forEach(category => {
+  //       localStorage.removeItem(`category_${category.categoryName}`);
+  //     });
+  //     console.log('Category cache cleared');
+  //   } catch (error) {
+  //     console.warn('Failed to clear cache:', error);
+  //   }
+  // }, []);
 
   const checkScrollPosition = (categoryName: string) => {
     const scrollContainer = scrollRefs.current[categoryName];
@@ -106,33 +227,99 @@ export default function CategoryCarousel() {
     return categoryQueries[categoryName] || categoryName.toLowerCase();
   };
 
-  const loadCategoryBooks = useCallback(async (categoryName: string) => {
-    try {
-      // Create a search query based on category
-      const searchQuery = getCategorySearchQuery(categoryName);
-      const response = await fetch(
-        `/api/books?q=${encodeURIComponent(searchQuery)}&maxResults=10`
-      );
-      const data = await response.json();
+  const loadCategoryBooks = useCallback(
+    async (categoryName: string) => {
+      // Check if already loading or in error state
+      if (loadingStates[categoryName] || errorStates[categoryName]) return;
 
-      if (data.items) {
+      // Check cache first
+      const cachedData = getCachedData(categoryName);
+      if (cachedData) {
         setCategoryBooks((prev) => ({
           ...prev,
-          [categoryName]: data.items,
+          [categoryName]: cachedData,
         }));
+        return;
       }
-    } catch (error) {
-      console.error(`Error loading books for ${categoryName}:`, error);
-    }
-  }, []);
+
+      // In development mode, use fallback data to prevent API calls
+      if (DEV_MODE) {
+        console.log(
+          `Development mode: Using fallback data for ${categoryName}`
+        );
+        setCategoryBooks((prev) => ({
+          ...prev,
+          [categoryName]: FALLBACK_BOOKS,
+        }));
+        return;
+      }
+
+      setLoadingStates((prev) => ({ ...prev, [categoryName]: true }));
+
+      try {
+        // Create a search query based on category
+        const searchQuery = getCategorySearchQuery(categoryName);
+        const response = await fetch(
+          `/api/books?q=${encodeURIComponent(searchQuery)}&maxResults=10`
+        );
+
+        if (response.status === 429) {
+          console.warn(`Rate limited for ${categoryName}, using fallback data`);
+          setCategoryBooks((prev) => ({
+            ...prev,
+            [categoryName]: FALLBACK_BOOKS,
+          }));
+          setErrorStates((prev) => ({ ...prev, [categoryName]: true }));
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+          setCategoryBooks((prev) => ({
+            ...prev,
+            [categoryName]: data.items,
+          }));
+          // Cache the successful response
+          setCachedData(categoryName, data.items);
+        } else {
+          // Use fallback data if no results
+          setCategoryBooks((prev) => ({
+            ...prev,
+            [categoryName]: FALLBACK_BOOKS,
+          }));
+        }
+      } catch (error) {
+        console.error(`Error loading books for ${categoryName}:`, error);
+        // Use fallback data on error
+        setCategoryBooks((prev) => ({
+          ...prev,
+          [categoryName]: FALLBACK_BOOKS,
+        }));
+        setErrorStates((prev) => ({ ...prev, [categoryName]: true }));
+      } finally {
+        setLoadingStates((prev) => ({ ...prev, [categoryName]: false }));
+      }
+    },
+    [loadingStates, errorStates, getCachedData, setCachedData, DEV_MODE]
+  );
 
   // Initialize scroll positions and load category books after component mounts
   useEffect(() => {
     const timer = setTimeout(() => {
       categories.forEach((category) => {
         checkScrollPosition(category.categoryName);
-        // Load books for each category
-        loadCategoryBooks(category.categoryName);
+      });
+
+      // Load books with much longer staggered delays to avoid rate limiting
+      categories.forEach((category, index) => {
+        setTimeout(() => {
+          loadCategoryBooks(category.categoryName);
+        }, index * 3000); // 3 second delay between each request (increased from 1 second)
       });
     }, 100);
 
@@ -247,7 +434,10 @@ export default function CategoryCarousel() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                                 <div className="absolute top-2 right-2 z-10">
                                   <div onClick={(e) => e.preventDefault()}>
-                                    <FavoriteButton bookId={book.id} size="sm" />
+                                    <FavoriteButton
+                                      bookId={book.id}
+                                      size="sm"
+                                    />
                                   </div>
                                 </div>
                               </div>
