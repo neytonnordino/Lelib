@@ -8,10 +8,7 @@ import {
   FaList,
   FaClock,
   FaSignInAlt,
-  FaHeart,
   FaUsers,
-  FaChartLine,
-  FaBookmark,
   FaEye,
 } from "react-icons/fa";
 
@@ -74,7 +71,7 @@ const features = [
 ];
 
 export default function FeaturePreview() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   // Don't show if user is already signed in
   if (status === "authenticated") {
@@ -162,7 +159,7 @@ export default function FeaturePreview() {
                             <FaStar
                               key={star}
                               className={`w-4 h-4 ${
-                                star <= Math.floor(feature.preview.rating)
+                                star <= Math.floor(feature.preview.rating || 0)
                                   ? "text-yellow-400"
                                   : "text-gray-300"
                               }`}
@@ -170,14 +167,14 @@ export default function FeaturePreview() {
                           ))}
                         </div>
                         <span className="text-sm font-medium">
-                          {feature.preview.rating}
+                          {feature.preview.rating || 0}
                         </span>
                         <span className="text-xs text-gray-500">
                           ({feature.preview.reviewCount} reviews)
                         </span>
                       </div>
                       <p className="text-xs text-gray-600 italic">
-                        "{feature.preview.sampleReview}"
+                        &ldquo;{feature.preview.sampleReview}&rdquo;
                       </p>
                     </div>
                   )}

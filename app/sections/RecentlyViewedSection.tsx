@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { FaClock, FaEye } from "react-icons/fa";
@@ -24,8 +24,12 @@ interface Book {
   };
 }
 
+// Client-side cache for book details
+const bookCache = new Map<string, { data: Book; timestamp: number }>();
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
 export default function RecentlyViewedSection() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedBook[]>(
     []
   );
@@ -56,23 +60,72 @@ export default function RecentlyViewedSection() {
     }
   };
 
+  const getCachedBook = useCallback((bookId: string): Book | null => {
+    const cached = bookCache.get(bookId);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return cached.data;
+    }
+    return null;
+  }, []);
+
+  const setCachedBook = useCallback((bookId: string, book: Book) => {
+    bookCache.set(bookId, {
+      data: book,
+      timestamp: Date.now(),
+    });
+  }, []);
+
   const fetchBookDetails = async () => {
     setLoading(true);
     try {
-      const bookPromises = recentlyViewed.map(async (item) => {
-        const response = await fetch(
-          `/api/books?q=${encodeURIComponent(item.bookId)}&maxResults=1`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          return data.items?.[0] || null;
-        }
-        return null;
-      });
+      // Filter out books that are already cached
+      const uncachedBooks = recentlyViewed.filter(
+        (item) => !getCachedBook(item.bookId)
+      );
 
-      const bookResults = await Promise.all(bookPromises);
-      const validBooks = bookResults.filter((book) => book !== null);
-      setBooks(validBooks);
+      // Get cached books
+      const cachedBooks = recentlyViewed
+        .map((item) => getCachedBook(item.bookId))
+        .filter((book) => book !== null) as Book[];
+
+      // Fetch uncached books using batch API
+      let uncachedBookDetails: Book[] = [];
+
+      if (uncachedBooks.length > 0) {
+        try {
+          const bookIds = uncachedBooks.map((item) => item.bookId);
+          const response = await fetch("/api/books/batch", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ bookIds }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            uncachedBookDetails = data.books || [];
+
+            // Cache the fetched books
+            uncachedBookDetails.forEach((book) => {
+              const bookId = uncachedBooks.find(
+                (item) =>
+                  book.volumeInfo?.title?.includes(item.bookId) ||
+                  book.id === item.bookId
+              )?.bookId;
+              if (bookId) {
+                setCachedBook(bookId, book);
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching books in batch:", error);
+        }
+      }
+
+      // Combine cached and newly fetched books
+      const allBooks = [...cachedBooks, ...uncachedBookDetails];
+      setBooks(allBooks);
     } catch (error) {
       console.error("Error fetching book details:", error);
     } finally {

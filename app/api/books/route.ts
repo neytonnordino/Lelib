@@ -1,4 +1,76 @@
 import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+
+// Define the book data interface
+interface BookData {
+  items?: Array<{
+    id: string;
+    volumeInfo: {
+      title: string;
+      authors?: string[];
+      description?: string;
+      imageLinks?: {
+        thumbnail?: string;
+        smallThumbnail?: string;
+      };
+      publishedDate?: string;
+      pageCount?: number;
+      categories?: string[];
+      averageRating?: number;
+      ratingsCount?: number;
+    };
+  }>;
+  totalItems?: number;
+  kind?: string;
+  error?: string;
+}
+
+// Server-side cache for book details
+const bookCache = new Map<string, { data: BookData; timestamp: number }>();
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+// Cache file for persistence across server restarts
+const cacheFilePath = path.join(process.cwd(), "data", "book-cache.json");
+
+// Load cache from file on startup
+const loadCache = () => {
+  try {
+    if (fs.existsSync(cacheFilePath)) {
+      const cacheData = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+      bookCache.clear();
+      Object.entries(cacheData).forEach(([key, value]) => {
+        if (typeof value === 'object' && value !== null && 'data' in value && 'timestamp' in value) {
+          bookCache.set(key, value as { data: BookData; timestamp: number });
+        }
+      });
+    }
+  } catch (error) {
+    console.warn("Failed to load book cache:", error);
+  }
+};
+
+// Save cache to file
+const saveCache = () => {
+  try {
+    const dataDir = path.dirname(cacheFilePath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
+    const cacheData: Record<string, { data: BookData; timestamp: number }> = {};
+    bookCache.forEach((value, key) => {
+      cacheData[key] = value;
+    });
+
+    fs.writeFileSync(cacheFilePath, JSON.stringify(cacheData, null, 2));
+  } catch (error) {
+    console.warn("Failed to save book cache:", error);
+  }
+};
+
+// Initialize cache
+loadCache();
 
 // Global rate limiting for all requests
 const globalRequestCounts = new Map<
@@ -6,7 +78,9 @@ const globalRequestCounts = new Map<
   { count: number; resetTime: number }
 >();
 const GLOBAL_RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const GLOBAL_MAX_REQUESTS_PER_WINDOW = 5; // Max 5 requests per minute globally
+const GLOBAL_MAX_REQUESTS_PER_WINDOW = parseInt(
+  process.env.GLOBAL_MAX_REQUESTS_PER_MINUTE || "20"
+); // Configurable via env
 
 // Daily global rate limiting
 const dailyGlobalRequestCounts = new Map<
@@ -14,7 +88,9 @@ const dailyGlobalRequestCounts = new Map<
   { count: number; resetTime: number }
 >();
 const DAILY_GLOBAL_RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours
-const DAILY_GLOBAL_MAX_REQUESTS = 1000; // Max 1000 requests per day globally
+const DAILY_GLOBAL_MAX_REQUESTS = parseInt(
+  process.env.DAILY_GLOBAL_MAX_REQUESTS || "2000"
+); // Configurable via env
 
 // Per-client rate limiting
 const clientRequestCounts = new Map<
@@ -22,7 +98,9 @@ const clientRequestCounts = new Map<
   { count: number; resetTime: number }
 >();
 const CLIENT_RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const CLIENT_MAX_REQUESTS_PER_WINDOW = 3; // Max 3 requests per minute per client
+const CLIENT_MAX_REQUESTS_PER_WINDOW = parseInt(
+  process.env.CLIENT_MAX_REQUESTS_PER_MINUTE || "10"
+); // Configurable via env
 
 // Daily per-client rate limiting
 const dailyClientRequestCounts = new Map<
@@ -30,7 +108,9 @@ const dailyClientRequestCounts = new Map<
   { count: number; resetTime: number }
 >();
 const DAILY_CLIENT_RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000; // 24 hours
-const DAILY_CLIENT_MAX_REQUESTS = 100; // Max 100 requests per day per client
+const DAILY_CLIENT_MAX_REQUESTS = parseInt(
+  process.env.DAILY_CLIENT_MAX_REQUESTS || "200"
+); // Configurable via env
 
 function checkGlobalRateLimit(): boolean {
   const now = Date.now();
@@ -126,6 +206,16 @@ export async function GET(req: NextRequest) {
         { error: "Missing search term" },
         { status: 400 }
       );
+    }
+
+    // Create cache key
+    const cacheKey = `${q}_${startIndex}_${maxResults}`;
+
+    // Check cache first
+    const cachedData = bookCache.get(cacheKey);
+    if (cachedData && Date.now() - cachedData.timestamp < CACHE_DURATION) {
+      console.log(`Cache hit for query: ${q}`);
+      return NextResponse.json(cachedData.data);
     }
 
     // Check daily global rate limit first
@@ -228,6 +318,18 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await response.json();
+
+    // Cache the successful response
+    bookCache.set(cacheKey, {
+      data,
+      timestamp: Date.now(),
+    });
+
+    // Save cache to file periodically (every 10 requests)
+    if (bookCache.size % 10 === 0) {
+      saveCache();
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("Books API error:", error);
