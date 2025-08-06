@@ -13,7 +13,6 @@ import {
   FaHeart,
   FaStar,
   FaGithub,
-  FaTwitter,
   FaLinkedin,
   FaInstagram,
 } from "react-icons/fa";
@@ -35,25 +34,19 @@ const Footer = () => {
   const socialLinks = [
     {
       icon: FaGithub,
-      href: "#",
+      href: "https://github.com/neytonnordino",
       label: "GitHub",
       color: "hover:text-gray-800",
     },
     {
-      icon: FaTwitter,
-      href: "#",
-      label: "Twitter",
-      color: "hover:text-amber-500",
-    },
-    {
       icon: FaLinkedin,
-      href: "#",
+      href: "https://linkedin.com/in/neyton-nordino-079681372",
       label: "LinkedIn",
       color: "hover:text-amber-700",
     },
     {
       icon: FaInstagram,
-      href: "#",
+      href: "https://instagram.com/neyton.nn",
       label: "Instagram",
       color: "hover:text-pink-600",
     },

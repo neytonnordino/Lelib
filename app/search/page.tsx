@@ -1,13 +1,13 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
-import { useBookSearch } from "../hooks/useBookSearch";
-import Link from "next/link";
+import React, { Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
-import FavoriteButton from "../components/FavoriteButton";
-import ReactMarkdown from "react-markdown";
+import FavoriteButton from "@/app/components/FavoriteButton";
+import BookDescription from "@/app/components/BookDescription";
+import { useBookSearch } from "../hooks/useBookSearch";
 
 function SearchPageContent() {
   const searchParams = useSearchParams();
@@ -115,13 +115,11 @@ function SearchPageContent() {
                       by {book.volumeInfo.authors.join(", ")}
                     </p>
                   )}
-                  {book.volumeInfo.description && (
-                    <div className="text-sm text-gray-500 line-clamp-3 prose prose-sm max-w-none">
-                      <ReactMarkdown>
-                        {book.volumeInfo.description}
-                      </ReactMarkdown>
-                    </div>
-                  )}
+                                      {book.volumeInfo.description && (
+                      <div className="text-sm text-gray-500 line-clamp-3">
+                        <BookDescription description={book.volumeInfo.description} />
+                      </div>
+                    )}
                   <div className="flex items-center justify-between mt-3">
                     {book.volumeInfo.averageRating && (
                       <div className="flex items-center gap-1">

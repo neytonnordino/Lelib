@@ -5,15 +5,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   FaGithub,
-  FaTwitter,
   FaLinkedin,
   FaInstagram,
-  FaYoutube,
   FaBook,
   FaSearch,
   FaHeart,
   FaUsers,
-  FaRocket,
 } from "react-icons/fa";
 import Logo from "../components/Logo";
 import Image from "next/image";
@@ -57,32 +54,20 @@ export default function AboutUs() {
     {
       name: "GitHub",
       icon: <FaGithub className="w-6 h-6" />,
-      url: "#", // Replace with your GitHub URL
+      url: "https://github.com/neytonnordino", // Replace with your GitHub URL
       color: "hover:bg-gray-800",
-    },
-    {
-      name: "Twitter",
-      icon: <FaTwitter className="w-6 h-6" />,
-      url: "#", // Replace with your Twitter URL
-      color: "hover:bg-blue-500",
     },
     {
       name: "LinkedIn",
       icon: <FaLinkedin className="w-6 h-6" />,
-      url: "#", // Replace with your LinkedIn URL
+      url: "https://linkedin.com/in/neyton-nordino-079681372", // Replace with your LinkedIn URL
       color: "hover:bg-blue-700",
     },
     {
       name: "Instagram",
       icon: <FaInstagram className="w-6 h-6" />,
-      url: "#", // Replace with your Instagram URL
+      url: "https://instagram.com/neyton.nn", // Replace with your Instagram URL
       color: "hover:bg-pink-600",
-    },
-    {
-      name: "YouTube",
-      icon: <FaYoutube className="w-6 h-6" />,
-      url: "#", // Replace with your YouTube URL
-      color: "hover:bg-red-600",
     },
   ];
 
@@ -284,11 +269,9 @@ export default function AboutUs() {
 
             <div className="mt-12 p-6 bg-white rounded-xl shadow-lg">
               <div className="text-sm text-gray-500 space-y-1">
-                <p>• GitHub: Your GitHub profile or repository</p>
-                <p>• Twitter: Your Twitter/X profile</p>
-                <p>• LinkedIn: Your LinkedIn profile</p>
-                <p>• Instagram: Your Instagram profile</p>
-                <p>• YouTube: Your YouTube channel</p>
+                <p>• GitHub: Neyton Nhatave</p>
+                <p>• LinkedIn: Neyton Nordino</p>
+                <p>• Instagram: Neyton Nhatave</p>
               </div>
             </div>
           </motion.div>

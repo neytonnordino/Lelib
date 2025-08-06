@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
-import ReactMarkdown from "react-markdown";
+import BookDescription from "@/app/components/BookDescription";
 import ReadingProgress from "@/app/components/ReadingProgress";
 import BookReviews from "@/app/components/BookReviews";
 import ReadingLists from "@/app/components/ReadingLists";
@@ -278,11 +278,7 @@ const Slug = (props: Props) => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   Description
                 </h3>
-                <div className="text-gray-700 leading-relaxed prose prose-sm max-w-none">
-                  <ReactMarkdown>
-                    {book.volumeInfo.description}
-                  </ReactMarkdown>
-                </div>
+                <BookDescription description={book.volumeInfo.description} />
               </div>
             )}
 
