@@ -43,13 +43,13 @@ const Footer = () => {
       icon: FaTwitter,
       href: "#",
       label: "Twitter",
-      color: "hover:text-blue-500",
+      color: "hover:text-amber-500",
     },
     {
       icon: FaLinkedin,
       href: "#",
       label: "LinkedIn",
-      color: "hover:text-blue-700",
+      color: "hover:text-amber-700",
     },
     {
       icon: FaInstagram,

@@ -161,9 +161,7 @@ export default function BookReviews({
           >
             <FaStar
               className={`w-4 h-4 ${
-                star <= rating
-                  ? "text-yellow-400 fill-current"
-                  : "text-gray-300"
+                star <= rating ? "text-amber-400 fill-current" : "text-gray-300"
               }`}
             />
           </button>
@@ -189,7 +187,7 @@ export default function BookReviews({
         {status === "authenticated" && (
           <button
             onClick={() => setIsWritingReview(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors"
           >
             Write Review
           </button>
@@ -221,7 +219,7 @@ export default function BookReviews({
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               placeholder="Share your thoughts about this book..."
             />
           </div>
@@ -230,7 +228,7 @@ export default function BookReviews({
             <button
               onClick={submitReview}
               disabled={loading || !rating || !reviewText.trim()}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+              className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50"
             >
               {loading ? "Saving..." : "Submit Review"}
             </button>
@@ -278,8 +276,8 @@ export default function BookReviews({
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <FaUser className="w-4 h-4 text-blue-600" />
+                  <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                    <FaUser className="w-4 h-4 text-amber-600" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">
@@ -301,8 +299,8 @@ export default function BookReviews({
                   disabled={!session?.user?.email}
                   className={`flex items-center gap-1 text-sm ${
                     review.votedBy.includes(session?.user?.email || "")
-                      ? "text-blue-600"
-                      : "text-gray-500 hover:text-blue-600"
+                      ? "text-amber-600"
+                      : "text-gray-500 hover:text-amber-600"
                   } transition-colors disabled:opacity-50`}
                 >
                   <FaThumbsUp />
@@ -317,7 +315,7 @@ export default function BookReviews({
                         setReviewText(review.review);
                         setIsWritingReview(true);
                       }}
-                      className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                      className="text-sm text-gray-500 hover:text-amber-600 transition-colors"
                     >
                       <FaEdit />
                     </button>

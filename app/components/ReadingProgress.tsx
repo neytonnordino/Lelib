@@ -131,14 +131,14 @@ export default function ReadingProgress({
     <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-          <FaBookOpen className="text-blue-500" />
+          <FaBookOpen className="text-amber-500" />
           Reading Progress
         </h3>
         {progress && (
           <div className="flex gap-2">
             <button
               onClick={() => setIsEditing(true)}
-              className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+              className="p-2 text-gray-600 hover:text-amber-600 transition-colors"
               title="Edit Progress"
             >
               <FaEdit />
@@ -163,7 +163,7 @@ export default function ReadingProgress({
           <button
             onClick={startReading}
             disabled={!totalPages}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Start Reading
           </button>
@@ -181,7 +181,7 @@ export default function ReadingProgress({
 
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <motion.div
-                  className="bg-blue-500 h-2 rounded-full"
+                  className="bg-amber-500 h-2 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercentage}%` }}
                   transition={{ duration: 0.5 }}
@@ -191,7 +191,7 @@ export default function ReadingProgress({
               <div className="flex items-center justify-between text-sm text-gray-600">
                 <span>{Math.round(progressPercentage)}% complete</span>
                 {progress.isCompleted && (
-                  <span className="flex items-center gap-1 text-green-600">
+                  <span className="flex items-center gap-1 text-amber-600">
                     <FaCheckCircle />
                     Completed
                   </span>
@@ -225,7 +225,7 @@ export default function ReadingProgress({
                   onChange={(e) =>
                     setCurrentPage(parseInt(e.target.value) || 0)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
               </div>
 
@@ -237,7 +237,7 @@ export default function ReadingProgress({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   placeholder="Add your thoughts, quotes, or notes..."
                 />
               </div>
@@ -246,7 +246,7 @@ export default function ReadingProgress({
                 <button
                   onClick={updateProgress}
                   disabled={loading || !totalPages}
-                  className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50"
                 >
                   {loading ? "Saving..." : "Save Progress"}
                 </button>

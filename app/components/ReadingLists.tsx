@@ -214,12 +214,12 @@ export default function ReadingLists({
     <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <FaList className="text-blue-500" />
+          <FaList className="text-amber-500" />
           <h3 className="text-lg font-semibold text-gray-900">Reading Lists</h3>
         </div>
         <button
           onClick={() => setIsCreatingList(true)}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+          className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors flex items-center gap-2"
         >
           <FaPlus />
           Create List
@@ -245,7 +245,7 @@ export default function ReadingLists({
                 type="text"
                 value={listName}
                 onChange={(e) => setListName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 placeholder="Enter list name..."
               />
             </div>
@@ -258,7 +258,7 @@ export default function ReadingLists({
                 value={listDescription}
                 onChange={(e) => setListDescription(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 placeholder="Describe your list..."
               />
             </div>
@@ -269,7 +269,7 @@ export default function ReadingLists({
                 id="isPublic"
                 checked={isPublic}
                 onChange={(e) => setIsPublic(e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-300 text-amber-600 focus:ring-amber-500"
               />
               <label htmlFor="isPublic" className="text-sm text-gray-700">
                 Make this list public
@@ -282,7 +282,7 @@ export default function ReadingLists({
                   isEditingList ? updateList(isEditingList) : createList()
                 }
                 disabled={loading || !listName.trim()}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50"
               >
                 {loading
                   ? "Saving..."
@@ -320,7 +320,7 @@ export default function ReadingLists({
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-medium text-gray-900">{list.name}</h4>
                     {list.isPublic ? (
-                      <FaEye className="text-green-500" title="Public" />
+                      <FaEye className="text-amber-500" title="Public" />
                     ) : (
                       <FaEyeSlash className="text-gray-400" title="Private" />
                     )}
@@ -353,8 +353,8 @@ export default function ReadingLists({
                       }
                       className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                         list.books.includes(bookId)
-                          ? "bg-red-100 text-red-700 hover:bg-red-200"
-                          : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                                          ? "bg-red-100 text-red-700 hover:bg-red-200"
+                : "bg-amber-100 text-amber-700 hover:bg-amber-200"
                       }`}
                     >
                       {list.books.includes(bookId) ? "Remove" : "Add"}
@@ -365,7 +365,7 @@ export default function ReadingLists({
                     <>
                       <button
                         onClick={() => startEditing(list)}
-                        className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                        className="p-2 text-gray-600 hover:text-amber-600 transition-colors"
                         title="Edit List"
                       >
                         <FaEdit />

@@ -164,7 +164,7 @@ const SearchBar = ({
                 </div>
               ))}
               {books.length > 5 && (
-                <div className="px-4 py-2 text-center text-sm text-blue-600 hover:bg-gray-100">
+                <div className="px-4 py-2 text-center text-sm text-amber-600 hover:bg-gray-100">
                   <Link href={`/search?q=${encodeURIComponent(searchQuery)}`}>
                     View all results
                   </Link>

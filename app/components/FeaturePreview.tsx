@@ -19,7 +19,7 @@ const features = [
     description:
       "Track your reading journey with page-by-page progress, reading notes, and completion status.",
     icon: FaBookOpen,
-    color: "from-blue-500 to-blue-600",
+    color: "from-amber-500 to-amber-600",
     preview: {
       title: "The Great Gatsby",
       progress: 75,
@@ -34,7 +34,7 @@ const features = [
     description:
       "Share your thoughts, rate books, and discover what others think about your favorite reads.",
     icon: FaStar,
-    color: "from-yellow-500 to-yellow-600",
+    color: "from-amber-500 to-amber-600",
     preview: {
       rating: 4.5,
       reviewCount: 127,
@@ -48,7 +48,7 @@ const features = [
     description:
       "Create custom reading lists, organize your library, and share recommendations with others.",
     icon: FaList,
-    color: "from-green-500 to-green-600",
+    color: "from-amber-500 to-amber-600",
     preview: {
       listName: "Summer Reading 2024",
       bookCount: 12,
@@ -62,7 +62,7 @@ const features = [
     description:
       "Never lose track of books you've explored. Your reading history, always at your fingertips.",
     icon: FaClock,
-    color: "from-purple-500 to-purple-600",
+    color: "from-amber-500 to-amber-600",
     preview: {
       recentCount: 5,
       lastViewed: "2 hours ago",
@@ -140,7 +140,7 @@ export default function FeaturePreview() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                          className="bg-amber-500 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${feature.preview.progress}%` }}
                         />
                       </div>
@@ -194,7 +194,7 @@ export default function FeaturePreview() {
                         <span className="text-gray-600">
                           {feature.preview.bookCount} books
                         </span>
-                        <span className="text-green-600 font-medium">
+                        <span className="text-amber-600 font-medium">
                           {feature.preview.isPublic ? "Public" : "Private"}
                         </span>
                       </div>

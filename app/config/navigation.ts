@@ -12,7 +12,7 @@ export const navigationItems = [
     href: "#read",
   },
   {
-    label: "About us",
+    label: "About",
     href: "/about-us",
   },
   {

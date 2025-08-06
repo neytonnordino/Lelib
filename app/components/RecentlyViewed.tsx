@@ -157,7 +157,7 @@ export default function RecentlyViewed({
     <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <FaClock className="text-blue-500" />
+                      <FaClock className="text-amber-500" />
           <h3 className="text-lg font-semibold text-gray-900">
             Recently Viewed
           </h3>
@@ -227,7 +227,7 @@ export default function RecentlyViewed({
                     <div className="flex-1 min-w-0">
                       <Link
                         href={`/book/${item.bookId}`}
-                        className="block hover:text-blue-600 transition-colors"
+                        className="block hover:text-amber-600 transition-colors"
                       >
                         <h4 className="font-medium text-gray-900 truncate">
                           {book?.volumeInfo?.title || "Loading..."}
@@ -268,7 +268,7 @@ export default function RecentlyViewed({
         <div className="mt-6 pt-4 border-t border-gray-200">
           <Link
             href="/profile"
-            className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                          className="text-sm text-amber-600 hover:text-amber-800 transition-colors"
           >
             View all recently viewed books →
           </Link>
