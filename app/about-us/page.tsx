@@ -15,6 +15,8 @@ import {
   FaUsers,
   FaRocket,
 } from "react-icons/fa";
+import Logo from "../components/Logo";
+import Image from "next/image";
 
 export default function AboutUs() {
   const features = [
@@ -75,7 +77,7 @@ export default function AboutUs() {
       icon: <FaInstagram className="w-6 h-6" />,
       url: "#", // Replace with your Instagram URL
       color: "hover:bg-pink-600",
-    },  
+    },
     {
       name: "YouTube",
       icon: <FaYoutube className="w-6 h-6" />,
@@ -97,7 +99,7 @@ export default function AboutUs() {
             className="text-center max-w-4xl mx-auto"
           >
             <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-500 rounded-full mb-8">
-              <FaRocket className="w-10 h-10 text-white" />
+              <Logo showText={false} />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
               About <span className="text-amber-500">Lelib</span>
@@ -217,8 +219,14 @@ export default function AboutUs() {
               Meet the Developer
             </h2>
             <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-12 mb-12">
-              <div className="w-32 h-32 bg-amber-500 rounded-full mx-auto mb-8 flex items-center justify-center">
-                <FaRocket className="w-16 h-16 text-white" />
+              <div className="w-32 h-32 bg-amber-500 rounded-full mx-auto mb-8 flex items-center justify-center hover:bg-neutral-100 hover:scale-105 transition">
+                <Image
+                  src="/images/avatar.jpeg"
+                  alt="Lelib's Developer"
+                  width={120}
+                  height={100}
+                  className="rounded-full border-2 border-neutral-100 hover:border-amber-500 transition"
+                />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 Neyton Nordino Nhatave
@@ -275,10 +283,6 @@ export default function AboutUs() {
             </div>
 
             <div className="mt-12 p-6 bg-white rounded-xl shadow-lg">
-              <p className="text-gray-600 mb-4">
-                <strong>Note:</strong> Replace the &quot;#&quot; links above
-                with your actual social media URLs:
-              </p>
               <div className="text-sm text-gray-500 space-y-1">
                 <p>• GitHub: Your GitHub profile or repository</p>
                 <p>• Twitter: Your Twitter/X profile</p>

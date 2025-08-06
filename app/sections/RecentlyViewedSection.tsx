@@ -26,7 +26,9 @@ interface Book {
 
 export default function RecentlyViewedSection() {
   const { data: session, status } = useSession();
-  const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedBook[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewedBook[]>(
+    []
+  );
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +60,9 @@ export default function RecentlyViewedSection() {
     setLoading(true);
     try {
       const bookPromises = recentlyViewed.map(async (item) => {
-        const response = await fetch(`/api/books?q=${encodeURIComponent(item.bookId)}&maxResults=1`);
+        const response = await fetch(
+          `/api/books?q=${encodeURIComponent(item.bookId)}&maxResults=1`
+        );
         if (response.ok) {
           const data = await response.json();
           return data.items?.[0] || null;
@@ -67,7 +71,7 @@ export default function RecentlyViewedSection() {
       });
 
       const bookResults = await Promise.all(bookPromises);
-      const validBooks = bookResults.filter(book => book !== null);
+      const validBooks = bookResults.filter((book) => book !== null);
       setBooks(validBooks);
     } catch (error) {
       console.error("Error fetching book details:", error);
@@ -76,8 +80,43 @@ export default function RecentlyViewedSection() {
     }
   };
 
-  if (status !== "authenticated" || recentlyViewed.length === 0) {
+  if (status !== "authenticated") {
     return null;
+  }
+
+  // Show empty state if no recently viewed books
+  if (recentlyViewed.length === 0) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center gap-3 mb-8">
+            <FaClock className="text-2xl text-amber-500" />
+            <h2 className="text-3xl font-bold text-gray-900">
+              Recently Viewed
+            </h2>
+          </div>
+
+          <div className="text-center py-12">
+            <div className="max-w-md mx-auto">
+              <FaEye className="text-6xl text-gray-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                No Recently Viewed Books
+              </h3>
+              <p className="text-gray-500 mb-6">
+                Start exploring books to see your reading history here. Your
+                recently viewed books will appear automatically.
+              </p>
+              <Link
+                href="/search"
+                className="inline-flex items-center px-6 py-3 bg-amber-500 text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
+              >
+                Explore Books
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -86,7 +125,9 @@ export default function RecentlyViewedSection() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <FaClock className="text-2xl text-amber-500" />
-            <h2 className="text-3xl font-bold text-gray-900">Recently Viewed</h2>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Recently Viewed
+            </h2>
           </div>
           <Link
             href="/profile"
@@ -109,8 +150,8 @@ export default function RecentlyViewedSection() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {recentlyViewed.slice(0, 6).map((item, index) => {
-              const book = books.find(b => b.id === item.bookId);
-              
+              const book = books.find((b) => b.id === item.bookId);
+
               return (
                 <motion.div
                   key={item.bookId}
@@ -123,7 +164,10 @@ export default function RecentlyViewedSection() {
                     <div className="relative overflow-hidden rounded-lg shadow-md group-hover:shadow-lg transition-shadow">
                       {book?.volumeInfo?.imageLinks?.thumbnail ? (
                         <Image
-                          src={book.volumeInfo.imageLinks.thumbnail.replace("http://", "https://")}
+                          src={book.volumeInfo.imageLinks.thumbnail.replace(
+                            "http://",
+                            "https://"
+                          )}
                           alt={book.volumeInfo.title}
                           width={200}
                           height={300}
@@ -136,7 +180,7 @@ export default function RecentlyViewedSection() {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="mt-3">
                       <h3 className="font-medium text-gray-900 text-sm line-clamp-2 group-hover:text-amber-600 transition-colors">
                         {book?.volumeInfo?.title || "Loading..."}
@@ -156,4 +200,4 @@ export default function RecentlyViewedSection() {
       </div>
     </section>
   );
-} 
+}
